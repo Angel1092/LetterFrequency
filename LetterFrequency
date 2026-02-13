@@ -7,49 +7,55 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 public class LetterFrequency {
+
     public static void main(String[] args) {
 
         try {
-            File file = new File("Letter Frequency");
+            
+            File file = new File("LetterFrequency.csv");
             Scanner scanner = new Scanner(file);
 
             int totalFrequency = 0;
             double totalPercentage = 0.0;
             int count = 0;
 
-            // Skip header line
-            scanner.nextLine();
+            // This skips the header line
+            if (scanner.hasNextLine()) {
+                scanner.nextLine();
+            }
+
+            System.out.println("Letter\tFrequency\tPercentage");
 
             while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
+                String line = scanner.nextLine().trim();
 
-                // Remove quotes and spaces
-                line = line.replace("\"", "").trim();
+                // Remove quotes
+                line = line.replace("\"", "");
 
-                // Split by comma
+                // This splits the line by comma
                 String[] parts = line.split(",");
 
                 String letter = parts[0].trim();
                 int frequency = Integer.parseInt(parts[1].trim());
                 double percentage = Double.parseDouble(parts[2].trim());
 
-                System.out.println(letter + "\t" + frequency + "\t" + percentage);
-
                 totalFrequency += frequency;
                 totalPercentage += percentage;
                 count++;
+
+                // Will print out each line
+                System.out.println(letter + "\t" + frequency + "\t\t" + percentage);
             }
 
             double averageFrequency = (double) totalFrequency / count;
 
-            System.out.println("-----------------------------------");
-            System.out.println("Total\t" + averageFrequency + "\t" + totalPercentage);
+            System.out.println("--------------------------------------------------");
+            System.out.println("TOTAL\t" + averageFrequency + "\t" + totalPercentage);
 
             scanner.close();
 
         } catch (FileNotFoundException e) {
-            System.out.println("File not found.");
+            System.out.println("Error: File not found.");
         }
     }
 }
-
